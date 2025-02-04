@@ -54,7 +54,7 @@
     "play": "pnpm --filter vue dev",
     "play:react": "pnpm --filter react dev",
     "prepublishOnly": "npm run build",
-    "release": "bumpp --commit --tag --push",
+    "release": "bumpp --commit --tag --push && npm publish",
     "publish:ci": "esno scripts/publish.ts",
     "test": "vitest",
     "test:e2e": "vitest -c vitest.config.e2e.ts",
