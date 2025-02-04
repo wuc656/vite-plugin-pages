@@ -1,11 +1,11 @@
-# vite-plugin-pages
+# vite-plugin-pages2
 
-[![npm version](https://badgen.net/npm/v/vite-plugin-pages)](https://www.npmjs.com/package/vite-plugin-pages)
-[![monthly downloads](https://badgen.net/npm/dm/vite-plugin-pages)](https://www.npmjs.com/package/vite-plugin-pages)
-[![types](https://badgen.net/npm/types/vite-plugin-pages)](https://github.com/hannoeru/vite-plugin-pages/blob/main/src/types.ts)
-[![license](https://badgen.net/npm/license/vite-plugin-pages)](https://github.com/hannoeru/vite-plugin-pages/blob/main/LICENSE)
+[![npm version](https://badgen.net/npm/v/vite-plugin-pages2)](https://www.npmjs.com/package/vite-plugin-pages2)
+[![monthly downloads](https://badgen.net/npm/dm/vite-plugin-pages2)](https://www.npmjs.com/package/vite-plugin-pages2)
+[![types](https://badgen.net/npm/types/vite-plugin-pages2)](https://github.com/wuc656/vite-plugin-pages/blob/main/src/types.ts)
+[![license](https://badgen.net/npm/license/vite-plugin-pages2)](https://github.com/wuc656/vite-plugin-pages/blob/main/LICENSE)
 
-[![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/hannoeru/vite-plugin-pages)
+[![Open in Visual Studio Code](https://img.shields.io/static/v1?logo=visualstudiocode&label=&message=Open%20in%20Visual%20Studio%20Code&labelColor=2c2c32&color=007acc&logoColor=007acc)](https://open.vscode.dev/wuc656/vite-plugin-pages2)
 
 > File system based routing for Vue 3 / React / Solid applications using
 > [Vite](https://github.com/vitejs/vite)
@@ -23,7 +23,7 @@ We recommend that Vue users use [unplugin-vue-router](https://github.com/posva/u
 #### Install:
 
 ```bash
-npm install -D vite-plugin-pages
+npm install -D vite-plugin-pages2
 npm install vue-router
 ```
 
@@ -34,7 +34,7 @@ npm install vue-router
 #### Install:
 
 ```bash
-npm install -D vite-plugin-pages
+npm install -D vite-plugin-pages2
 npm install react-router react-router-dom
 ```
 
@@ -43,7 +43,7 @@ npm install react-router react-router-dom
 #### Install:
 
 ```bash
-npm install -D vite-plugin-pages
+npm install -D vite-plugin-pages2
 npm install @solidjs/router
 ```
 
