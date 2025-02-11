@@ -16,7 +16,7 @@
     "nodemon": "^3.1.7",
     "typescript": "^5.7.2",
     "vite": "^6.0.0",
-    "vite-plugin-pages": "workspace:*",
+    "vite-plugin-pages2": "workspace:*",
     "vite-plugin-vue-markdown": "^0.23.8"
   }
 }
