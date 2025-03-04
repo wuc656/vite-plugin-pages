@@ -1,7 +1,7 @@
 import Vue from '@vitejs/plugin-vue'
+import Markdown from 'unplugin-vue-markdown/vite'
 import { defineConfig } from 'vite'
-import Pages from 'vite-plugin-pages'
-import Markdown from 'vite-plugin-vue-markdown'
+import Pages from 'vite-plugin-pages2'
 
 const config = defineConfig({
   plugins: [
@@ -18,7 +18,7 @@ const config = defineConfig({
       syncIndex: false,
       routeStyle: 'nuxt',
     }),
-    Markdown(),
+    Markdown({}),
   ],
 })
 

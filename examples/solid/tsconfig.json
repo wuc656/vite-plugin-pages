@@ -5,7 +5,7 @@
     "jsxImportSource": "solid-js",
     "module": "ESNext",
     "moduleResolution": "node",
-    "types": ["vite/client", "vite-plugin-pages/client-solid"],
+    "types": ["vite/client", "vite-plugin-pages2/client-solid"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true
   }

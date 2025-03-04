@@ -1,12 +1,12 @@
 import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
-import pages from 'vite-plugin-pages'
+import Pages from 'vite-plugin-pages2'
 import solid from 'vite-plugin-solid'
 
 export default defineConfig({
   plugins: [
     solid(),
-    pages({
+    Pages({
       dirs: [
         { dir: resolve(__dirname, './src/pages'), baseRoute: '' },
         { dir: 'src/features/**/pages', baseRoute: 'features' },

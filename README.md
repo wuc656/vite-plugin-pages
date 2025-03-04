@@ -52,7 +52,7 @@ npm install @solidjs/router
 Add to your `vite.config.js`:
 
 ```js
-import Pages from 'vite-plugin-pages'
+import Pages from 'vite-plugin-pages2'
 
 export default {
   plugins: [
@@ -164,7 +164,7 @@ Remember to check the `dirs` is set to the correct routes directory in `vite.con
 
 ```ts
 import { defineConfig } from 'vite'
-import Pages from 'vite-plugin-pages'
+import Pages from 'vite-plugin-pages2'
 import solidPlugin from 'vite-plugin-solid'
 
 export default defineConfig({
@@ -191,7 +191,7 @@ plugin:
 
 ```js
 // vite.config.js
-import Pages from 'vite-plugin-pages'
+import Pages from 'vite-plugin-pages2'
 
 export default {
   plugins: [
