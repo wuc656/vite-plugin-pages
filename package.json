@@ -9,7 +9,7 @@
   "homepage": "https://github.com/wuc656/vite-plugin-pages",
   "repository": {
     "type": "git",
-    "url": "https://github.com/wuc656/vite-plugin-pages"
+    "url": "git+https://github.com/wuc656/vite-plugin-pages.git"
   },
   "bugs": "https://github.com/wuc656/vite-plugin-pages/issues",
   "keywords": [
