@@ -2,7 +2,7 @@
   "name": "vite-plugin-pages2",
   "type": "module",
   "version": "0.32.8",
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.7.0",
   "description": "File system base vue-router plugin for Vite",
   "author": "wuc656 <wuc656@gmail.com>, hannoeru <me@hanlee.co>",
   "license": "MIT",
@@ -86,31 +86,32 @@
     "debug": "^4.4.0",
     "dequal": "^2.0.3",
     "extract-comments": "^1.1.0",
-    "fast-glob": "^3.3.3",
     "json5": "^2.2.3",
     "local-pkg": "^1.1.1",
+    "micromatch": "^4.0.8",
     "picocolors": "^1.1.1",
+    "tinyglobby": "^0.2.12",
     "yaml": "^2.7.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.4.0",
+    "@antfu/eslint-config": "^4.11.0",
     "@antfu/utils": "^9.1.0",
     "@solidjs/router": "^0.15.3",
-    "@types/glob-to-regexp": "^0.4.4",
-    "@types/node": "^22.13.9",
-    "@vitest/ui": "^3.0.7",
+    "@types/micromatch": "^4.0.9",
+    "@types/node": "^22.13.14",
+    "@vitest/ui": "^3.0.9",
     "@vue/compiler-sfc": "^3.5.13",
-    "bumpp": "^10.0.3",
-    "eslint": "^9.21.0",
+    "bumpp": "^10.1.0",
+    "eslint": "^9.23.0",
     "esno": "^4.8.0",
-    "playwright": "^1.50.1",
-    "react": "^19.0.0",
-    "react-router": "^7.2.0",
+    "playwright": "^1.51.1",
+    "react": "^19.1.0",
+    "react-router": "^7.4.1",
     "solid-js": "^1.9.5",
     "tsup": "^8.4.0",
     "typescript": "^5.8.2",
-    "vite": "^6.2.0",
-    "vitest": "^3.0.7",
+    "vite": "^6.2.3",
+    "vitest": "^3.0.9",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
@@ -119,6 +120,13 @@
       "allowedVersions": {
         "eslint": "*"
       }
+    },
+    "overrides": {
+      "array-flatten": "npm:@nolyfill/array-flatten@^1",
+      "is-core-module": "npm:@nolyfill/is-core-module@^1",
+      "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
+      "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
+      "side-channel": "npm:@nolyfill/side-channel@^1"
     }
   }
 }
