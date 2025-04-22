@@ -1,8 +1,8 @@
 {
   "name": "vite-plugin-pages2",
   "type": "module",
-  "version": "0.33.0",
-  "packageManager": "pnpm@10.7.0",
+  "version": "0.33.1",
+  "packageManager": "pnpm@10.9.0",
   "description": "File system base vue-router plugin for Vite",
   "author": "wuc656 <wuc656@gmail.com>, hannoeru <me@hanlee.co>",
   "license": "MIT",
@@ -90,28 +90,28 @@
     "local-pkg": "^1.1.1",
     "micromatch": "^4.0.8",
     "picocolors": "^1.1.1",
-    "tinyglobby": "^0.2.12",
-    "yaml": "^2.7.0"
+    "tinyglobby": "^0.2.13",
+    "yaml": "^2.7.1"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^4.11.0",
-    "@antfu/utils": "^9.1.0",
+    "@antfu/eslint-config": "^4.12.0",
+    "@antfu/utils": "^9.2.0",
     "@solidjs/router": "^0.15.3",
     "@types/micromatch": "^4.0.9",
-    "@types/node": "^22.13.14",
-    "@vitest/ui": "^3.0.9",
+    "@types/node": "^22.14.1",
+    "@vitest/ui": "^3.1.2",
     "@vue/compiler-sfc": "^3.5.13",
     "bumpp": "^10.1.0",
-    "eslint": "^9.23.0",
+    "eslint": "^9.25.1",
     "esno": "^4.8.0",
-    "playwright": "^1.51.1",
+    "playwright": "^1.52.0",
     "react": "^19.1.0",
-    "react-router": "^7.4.1",
+    "react-router": "^7.5.1",
     "solid-js": "^1.9.5",
     "tsup": "^8.4.0",
-    "typescript": "^5.8.2",
-    "vite": "^6.2.3",
-    "vitest": "^3.0.9",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.2",
+    "vitest": "^3.1.2",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
@@ -127,6 +127,10 @@
       "safe-buffer": "npm:@nolyfill/safe-buffer@^1",
       "safer-buffer": "npm:@nolyfill/safer-buffer@^1",
       "side-channel": "npm:@nolyfill/side-channel@^1"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "unrs-resolver"
+    ]
   }
 }
