@@ -12,7 +12,7 @@
     "resolveJsonModule": true,
     "types": [
       "vite/client",
-      "vite-plugin-pages2/client"
+      "vite-plugin-pages/client"
     ],
     "strict": true,
     "strictNullChecks": true,
