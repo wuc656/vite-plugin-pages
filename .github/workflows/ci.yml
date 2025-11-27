@@ -27,13 +27,13 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
       - name: Set node version to ${{ matrix.node_version }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node_version }}
           registry-url: https://registry.npmjs.org/
@@ -77,13 +77,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
 
       - name: Set node version
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version-file: .nvmrc
           cache: pnpm
