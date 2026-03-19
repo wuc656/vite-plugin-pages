@@ -8,6 +8,7 @@ import { extsToGlob } from './utils'
 /**
  * Resolves the page dirs for its for its given globs
  */
+const VUE_MD_EXT_RE = /\/$/
 export function getPageDirs(PageOptions: PageOptions, root: string, exclude: string[]): PageOptions[] {
   const dirs = globSync(slash(PageOptions.dir), {
     ignore: exclude,
@@ -19,7 +20,7 @@ export function getPageDirs(PageOptions: PageOptions, root: string, exclude: str
 
   const pageDirs = dirs.map(dir => ({
     ...PageOptions,
-    dir: dir.replace(/\/$/, ''),
+    dir: dir.replace(VUE_MD_EXT_RE, ''),
   }))
 
   return pageDirs

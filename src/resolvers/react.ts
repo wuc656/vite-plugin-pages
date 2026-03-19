@@ -21,7 +21,7 @@ export interface ReactRouteBase {
 export interface ReactRoute extends Omit<Optional<ReactRouteBase, 'rawRoute' | 'path'>, 'children'> {
   children?: ReactRoute[]
 }
-
+const VUE_MD_EXT_RE = /^\//
 function prepareRoutes(
   routes: ReactRoute[],
   options: ResolvedOptions,
@@ -29,7 +29,7 @@ function prepareRoutes(
 ) {
   for (const route of routes) {
     if (parent)
-      route.path = route.path?.replace(/^\//, '')
+      route.path = route.path?.replace(VUE_MD_EXT_RE, '')
 
     if (route.children)
       route.children = prepareRoutes(route.children, options, route)

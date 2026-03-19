@@ -26,7 +26,7 @@ export interface VueRouteBase {
 export interface VueRoute extends Omit<Optional<VueRouteBase, 'rawRoute' | 'name'>, 'children'> {
   children?: VueRoute[]
 }
-
+const VUE_MD_EXT_RE = /^\//
 function prepareRoutes(
   ctx: PageContext,
   routes: VueRoute[],
@@ -37,7 +37,7 @@ function prepareRoutes(
       route.name = route.name.replace(new RegExp(`${ctx.options.routeNameSeparator}index$`), '')
 
     if (parent)
-      route.path = route.path?.replace(/^\//, '')
+      route.path = route.path?.replace(VUE_MD_EXT_RE, '')
 
     if (route.children)
       route.children = prepareRoutes(ctx, route.children, route)

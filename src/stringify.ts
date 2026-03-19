@@ -8,13 +8,13 @@ const hasFunctionRE = /"(?:props|beforeEnter)":("(.*?)")/g
 
 const multilineCommentsRE = /\/\*(.|[\r\n])*?\*\//g
 const singlelineCommentsRE = /\/\/.*/g
-
+const VUE_MD_EXT_RE = /(\s)/g
 function replaceFunction(_: any, value: any) {
   if (typeof value === 'function' || typeof value === 'function') {
     const fnBody = value.toString()
       .replace(multilineCommentsRE, '')
       .replace(singlelineCommentsRE, '')
-      .replace(/(\s)/g, '')
+      .replace(VUE_MD_EXT_RE, '')
 
     // ES6 Arrow Function
     if (fnBody.length < 8 || fnBody.substring(0, 8) !== 'function')

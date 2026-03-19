@@ -7,6 +7,8 @@ import { MODULE_IDS } from './constants'
 import { getPageDirs } from './files'
 import { reactResolver, solidResolver, vueResolver } from './resolvers'
 
+const VUE_MD_EXT_RE = /^\//
+const VUE_MD_EXT_RE1 = /\/$/
 function resolvePageDirs(dirs: UserOptions['dirs'], root: string, exclude: string[]) {
   dirs = toArray(dirs)
   return dirs.flatMap((dir) => {
@@ -15,7 +17,7 @@ function resolvePageDirs(dirs: UserOptions['dirs'], root: string, exclude: strin
       : dir
 
     option.dir = slash(resolve(root, option.dir)).replace(`${root}/`, '')
-    option.baseRoute = option.baseRoute.replace(/^\//, '').replace(/\/$/, '')
+    option.baseRoute = option.baseRoute.replace(VUE_MD_EXT_RE, '').replace(VUE_MD_EXT_RE1, '')
 
     return getPageDirs(option, root, exclude)
   })
