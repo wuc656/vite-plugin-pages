@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-pages2",
   "type": "module",
-  "version": "0.34.11",
+  "version": "0.34.12",
   "packageManager": "pnpm@11.1.2",
   "description": "File system base vue-router plugin for Vite",
   "author": "wuc656 <wuc656@gmail.com>, hannoeru <me@hanlee.co>",
@@ -53,7 +53,7 @@
     "build": "tsup",
     "play": "pnpm --filter vue dev",
     "play:react": "pnpm --filter react dev",
-    "prepublishOnly": "npm run build",
+    "prepublishOnly": "pnpm run build",
     "release": "bumpp --commit --tag --push && npm publish",
     "publish:ci": "tsx scripts/publish.ts",
     "test": "vitest",
