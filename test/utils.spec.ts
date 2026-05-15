@@ -1,7 +1,6 @@
 import { resolve } from 'node:path'
-import { slash } from '@antfu/utils'
 import { resolveOptions } from '../src/options'
-import { buildReactRemixRoutePath, buildReactRoutePath, countSlash, extsToGlob, isCatchAllRoute, isDynamicRoute, isTarget } from '../src/utils'
+import { buildReactRemixRoutePath, buildReactRoutePath, countSlash, extsToGlob, isCatchAllRoute, isDynamicRoute, isTarget, slash } from '../src/utils'
 
 describe('utils', () => {
   it('extensions to glob', () => {

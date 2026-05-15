@@ -2,11 +2,22 @@ import type { ModuleNode, ViteDevServer } from 'vite'
 import type { ResolvedOptions } from './types'
 import { resolve, win32 } from 'node:path'
 import { URLSearchParams } from 'node:url'
-import { slash } from '@antfu/utils'
 import Debug from 'debug'
 import micromatch from 'micromatch'
 
-import { cacheAllRouteRE, countSlashRE, dynamicRouteRE, MODULE_ID_VIRTUAL, nuxtCacheAllRouteRE, nuxtDynamicRouteRE, replaceDynamicRouteRE, replaceIndexRE } from './constants'
+import { cacheAllRouteRE, dynamicRouteRE, MODULE_ID_VIRTUAL, nuxtCacheAllRouteRE, nuxtDynamicRouteRE, replaceDynamicRouteRE, replaceIndexRE } from './constants'
+
+const slashRE = /\\/g
+
+export function slash(str: string) {
+  return str.replace(slashRE, '/')
+}
+
+export function toArray<T>(value: T | T[] | null | undefined): T[] {
+  if (value == null)
+    return []
+  return Array.isArray(value) ? value : [value]
+}
 
 export const debug = {
   hmr: Debug('vite-plugin-pages:hmr'),
@@ -24,7 +35,12 @@ export function extsToGlob(extensions: string[]) {
 }
 
 export function countSlash(value: string) {
-  return (value.match(countSlashRE) || []).length
+  let count = 0
+  for (let i = 0; i < value.length; i++) {
+    if (value[i] === '/')
+      count++
+  }
+  return count
 }
 
 function isPagesDir(path: string, options: ResolvedOptions) {

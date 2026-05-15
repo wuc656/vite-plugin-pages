@@ -1,6 +1,6 @@
 import type { SFCBlock, SFCDescriptor } from '@vue/compiler-sfc'
 import type { CustomBlock, ParsedJSX, ResolvedOptions } from './types'
-import fs from 'node:fs'
+import { readFile } from 'node:fs/promises'
 
 // @ts-expect-error no type
 import extractComments from 'extract-comments'
@@ -11,6 +11,8 @@ import { parse as YAMLParser } from 'yaml'
 import { debug } from './utils'
 
 const routeJSXReg = /^\s+(route)\s+/gm
+
+let _compilerSfc: typeof import('@vue/compiler-sfc') | undefined
 
 export function parseJSX(code: string): ParsedJSX[] {
   return extractComments(code).slice(0, 1).filter((comment: ParsedJSX) => routeJSXReg.test(comment.value) && comment.value.includes(':') && comment.loc.start.line === 1)
@@ -37,7 +39,9 @@ export function parseYamlComment(code: ParsedJSX[], path: string): CustomBlock {
 
 export async function parseSFC(code: string): Promise<SFCDescriptor> {
   try {
-    const { parse } = await importModule('@vue/compiler-sfc') as typeof import('@vue/compiler-sfc')
+    if (!_compilerSfc)
+      _compilerSfc = await importModule('@vue/compiler-sfc') as typeof import('@vue/compiler-sfc')
+    const { parse } = _compilerSfc
     return parse(code, {
       pad: 'space',
     }).descriptor
@@ -83,7 +87,7 @@ export function parseCustomBlock(block: SFCBlock, filePath: string, options: Res
 }
 
 export async function getRouteBlock(path: string, options: ResolvedOptions) {
-  const content = fs.readFileSync(path, 'utf8')
+  const content = await readFile(path, 'utf8')
 
   const parsedSFC = await parseSFC(content)
   const blockStr = parsedSFC?.customBlocks.find(b => b.type === 'route')

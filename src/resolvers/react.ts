@@ -22,6 +22,39 @@ export interface ReactRoute extends Omit<Optional<ReactRouteBase, 'rawRoute' | '
   children?: ReactRoute[]
 }
 const VUE_MD_EXT_RE = /^\//
+
+/**
+ * Sort child routes so React Router matches in correct priority order.
+ * React Router v6+ matches routes in array order (first-match-wins),
+ * so more specific routes must come before less specific ones.
+ *
+ * Priority (lowest weight first):
+ *   0 — index route  (path "/")
+ *   1 — static route  (e.g. "about", "blog/today")
+ *   2 — dynamic route (e.g. ":id")
+ *   3 — catch-all     (path "*")
+ */
+function sortReactRoutes(routes: ReactRouteBase[]): ReactRouteBase[] {
+  routes.sort((a, b) => {
+    const weight = (r: ReactRouteBase): number => {
+      const p = r.path ?? ''
+      if (p === '/')
+        return 0
+      if (p === '*')
+        return 3
+      if (p.startsWith(':'))
+        return 2
+      return 1
+    }
+    return weight(a) - weight(b)
+  })
+  for (const route of routes) {
+    if (route.children)
+      sortReactRoutes(route.children)
+  }
+  return routes
+}
+
 function prepareRoutes(
   routes: ReactRoute[],
   options: ResolvedOptions,
@@ -100,6 +133,9 @@ async function computeReactRoutes(ctx: PageContext): Promise<ReactRoute[]> {
         parentRoutes.push(route)
     }
   })
+
+  // sort children so static routes come before dynamic/catch-all routes
+  sortReactRoutes(routes)
 
   // sort by dynamic routes
   let finalRoutes = prepareRoutes(routes, ctx.options)

@@ -1,6 +1,7 @@
-import type { Awaitable } from '@antfu/utils'
 import type { PageContext } from './context'
 import type { ReactRoute, SolidRoute, VueRoute } from './resolvers'
+
+export type Awaitable<T> = T | Promise<T>
 
 export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>
 

@@ -1,11 +1,11 @@
 import type { ImportModeResolver, ResolvedOptions, UserOptions } from './types'
 import { resolve } from 'node:path'
 import process from 'node:process'
-import { slash, toArray } from '@antfu/utils'
 
 import { MODULE_IDS } from './constants'
 import { getPageDirs } from './files'
 import { reactResolver, solidResolver, vueResolver } from './resolvers'
+import { slash, toArray } from './utils'
 
 const VUE_MD_EXT_RE = /^\//
 const VUE_MD_EXT_RE1 = /\/$/

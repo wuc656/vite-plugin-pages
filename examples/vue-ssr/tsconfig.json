@@ -3,7 +3,6 @@
     "incremental": true,
     "target": "ESNext",
     "lib": ["DOM", "ESNext"],
-    "baseUrl": ".",
     "module": "ESNext",
     "moduleResolution": "node",
     "paths": {

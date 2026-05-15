@@ -14,7 +14,8 @@
     "esModuleInterop": false,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
-    "skipLibCheck": false
+    "skipLibCheck": false,
+    "ignoreDeprecations": "6.0"
   },
   "include": ["./src", "../../client-react.d.ts"]
 }

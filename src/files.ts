@@ -1,9 +1,8 @@
 import type { PageOptions, ResolvedOptions } from './types'
 import { join } from 'node:path'
-import { slash } from '@antfu/utils'
 import { globSync } from 'tinyglobby'
 
-import { extsToGlob } from './utils'
+import { extsToGlob, slash } from './utils'
 
 /**
  * Resolves the page dirs for its for its given globs

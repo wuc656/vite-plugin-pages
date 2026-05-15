@@ -32,9 +32,10 @@ function prepareRoutes(
   routes: VueRoute[],
   parent?: VueRoute,
 ) {
+  const indexSuffixRE = new RegExp(`${ctx.options.routeNameSeparator}index$`)
   for (const route of routes) {
     if (route.name)
-      route.name = route.name.replace(new RegExp(`${ctx.options.routeNameSeparator}index$`), '')
+      route.name = route.name.replace(indexSuffixRE, '')
 
     if (parent)
       route.path = route.path?.replace(VUE_MD_EXT_RE, '')
@@ -68,6 +69,9 @@ async function computeVueRoutes(ctx: PageContext, customBlockMap: Map<string, Cu
     .sort((a, b) => countSlash(a.route) - countSlash(b.route))
 
   const routes: VueRouteBase[] = []
+
+  // Precompute route path set for O(1) index lookup in nuxt dynamic routes
+  const routePaths = new Set(pageRoutes.map(p => p.route))
 
   pageRoutes.forEach((page) => {
     const pathNodes = page.route.split('/')
@@ -131,10 +135,7 @@ async function computeVueRoutes(ctx: PageContext, customBlockMap: Map<string, Cu
           }
           else if (nuxtStyle && i === pathNodes.length - 1) {
             // we need to search if the folder provide `index.vue`
-            const isIndexFound = pageRoutes.find(({ route }) => {
-              return route === page.route.replace(pathNodes[i], 'index')
-            })
-            if (!isIndexFound)
+            if (!routePaths.has(page.route.replace(pathNodes[i], 'index')))
               route.path += '?'
           }
         }

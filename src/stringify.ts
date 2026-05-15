@@ -10,7 +10,7 @@ const multilineCommentsRE = /\/\*(.|[\r\n])*?\*\//g
 const singlelineCommentsRE = /\/\/.*/g
 const VUE_MD_EXT_RE = /(\s)/g
 function replaceFunction(_: any, value: any) {
-  if (typeof value === 'function' || typeof value === 'function') {
+  if (typeof value === 'function') {
     const fnBody = value.toString()
       .replace(multilineCommentsRE, '')
       .replace(singlelineCommentsRE, '')

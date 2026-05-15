@@ -20,6 +20,4 @@ export const replaceDynamicRouteRE = /^\[(?:\.{3})?(.*)\]$/
 export const nuxtDynamicRouteRE = /^_(.*)$/
 export const nuxtCacheAllRouteRE = /^_$/
 
-export const countSlashRE = /\//g
-
 export const replaceIndexRE = /\/?index$/

@@ -1,6 +1,5 @@
-import { slash } from '@antfu/utils'
-
 import { PageContext } from '../src/context'
+import { slash } from '../src/utils'
 
 const sensitivity = process.platform === 'win32' ? 'base' : 'variant'
 
