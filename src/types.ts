@@ -29,8 +29,9 @@ export interface PageOptions {
   dir: string
   /**
    * Page base route.
+   * @default ''
    */
-  baseRoute: string
+  baseRoute?: string
   /**
    * Page file pattern.
    * @example `**\/*.page.vue`

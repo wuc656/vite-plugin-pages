@@ -5,7 +5,7 @@ import process from 'node:process'
 import { getPageFiles } from './files'
 import { resolveOptions } from './options'
 
-import { debug, invalidatePagesModule, isTarget, slash, toArray } from './utils'
+import { debug, findPageDir, invalidatePagesModule, isTarget, slash, toArray } from './utils'
 
 export interface PageRoute {
   path: string
@@ -55,7 +55,7 @@ export class PageContext {
         path = slash(path)
         if (!isTarget(path, this.options))
           return
-        const page = this.options.dirs.find(i => path.startsWith(slash(resolve(this.root, i.dir))))!
+        const page = findPageDir(path, this.options)!
         await this.addPage(path, page)
         this.onUpdate()
       })
@@ -79,7 +79,7 @@ export class PageContext {
       if (!extension)
         continue
 
-      const route = slash(join(pageDir.baseRoute, p.replace(`${pageDirPath}/`, '').replace(`.${extension}`, '')))
+      const route = slash(join(pageDir.baseRoute ?? '', p.replace(`${pageDirPath}/`, '').replace(`.${extension}`, '')))
       this._pageRouteMap.set(p, {
         path: p,
         route,

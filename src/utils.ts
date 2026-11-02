@@ -1,5 +1,5 @@
 import type { ModuleNode, ViteDevServer } from 'vite'
-import type { ResolvedOptions } from './types'
+import type { PageOptions, ResolvedOptions } from './types'
 import { resolve, win32 } from 'node:path'
 import { URLSearchParams } from 'node:url'
 import Debug from 'debug'
@@ -34,6 +34,10 @@ export function extsToGlob(extensions: string[]) {
   return extensions.length > 1 ? `{${extensions.join(',')}}` : extensions[0] || ''
 }
 
+export function getPagePattern(options: ResolvedOptions, page?: PageOptions) {
+  return page?.filePattern ?? `**/*.${extsToGlob(options.extensions)}`
+}
+
 export function countSlash(value: string) {
   let count = 0
   for (let i = 0; i < value.length; i++) {
@@ -43,17 +47,16 @@ export function countSlash(value: string) {
   return count
 }
 
-function isPagesDir(path: string, options: ResolvedOptions) {
-  for (const page of options.dirs) {
+export function findPageDir(path: string, options: ResolvedOptions) {
+  return options.dirs.find((page) => {
     const dirPath = slash(resolve(options.root, page.dir))
-    if (path.startsWith(dirPath))
-      return true
-  }
-  return false
+    const prefix = dirPath.endsWith('/') ? dirPath : `${dirPath}/`
+    return path.startsWith(prefix) && micromatch.isMatch(path.slice(prefix.length), getPagePattern(options, page))
+  })
 }
 
 export function isTarget(path: string, options: ResolvedOptions) {
-  return isPagesDir(path, options) && !micromatch.isMatch(path, options.exclude) && options.extensionsRE.test(path)
+  return !!findPageDir(path, options) && !micromatch.isMatch(path, options.exclude) && options.extensionsRE.test(path)
 }
 
 export function isDynamicRoute(routePath: string, nuxtStyle = false) {
