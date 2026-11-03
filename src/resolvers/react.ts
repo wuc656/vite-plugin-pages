@@ -1,6 +1,7 @@
 import type { PageContext } from '../context'
 import type { Optional, PageResolver, ResolvedOptions } from '../types'
 
+import { LEADING_SLASH_RE } from '../constants'
 import { generateClientCode } from '../stringify'
 import {
   buildReactRemixRoutePath,
@@ -21,7 +22,6 @@ export interface ReactRouteBase {
 export interface ReactRoute extends Omit<Optional<ReactRouteBase, 'rawRoute' | 'path'>, 'children'> {
   children?: ReactRoute[]
 }
-const VUE_MD_EXT_RE = /^\//
 
 /**
  * Sort child routes so React Router matches in correct priority order.
@@ -62,7 +62,7 @@ function prepareRoutes(
 ) {
   for (const route of routes) {
     if (parent)
-      route.path = route.path?.replace(VUE_MD_EXT_RE, '')
+      route.path = route.path?.replace(LEADING_SLASH_RE, '')
 
     if (route.children)
       route.children = prepareRoutes(route.children, options, route)

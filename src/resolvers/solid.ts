@@ -1,6 +1,7 @@
 import type { PageContext } from '../context'
 import type { Optional, PageResolver, ResolvedOptions } from '../types'
 
+import { LEADING_SLASH_RE } from '../constants'
 import { generateClientCode } from '../stringify'
 import {
   buildReactRemixRoutePath,
@@ -20,7 +21,7 @@ export interface SolidRouteBase {
 export interface SolidRoute extends Omit<Optional<SolidRouteBase, 'rawRoute' | 'path'>, 'children'> {
   children?: SolidRoute[]
 }
-const VUE_MD_EXT_RE = /^\//
+
 function prepareRoutes(
   options: ResolvedOptions,
   routes: SolidRoute[],
@@ -28,7 +29,7 @@ function prepareRoutes(
 ) {
   for (const route of routes) {
     if (parent)
-      route.path = route.path?.replace(VUE_MD_EXT_RE, '')
+      route.path = route.path?.replace(LEADING_SLASH_RE, '')
 
     if (route.children)
       route.children = prepareRoutes(options, route.children, route)

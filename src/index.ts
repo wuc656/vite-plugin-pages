@@ -6,7 +6,7 @@ import { PageContext } from './context'
 import { parsePageRequest } from './utils'
 
 function pagesPlugin(userOptions: UserOptions = {}): Plugin {
-  let ctx: PageContext
+  let ctx: PageContext | undefined
 
   return {
     name: 'vite-plugin-pages',
@@ -34,14 +34,16 @@ function pagesPlugin(userOptions: UserOptions = {}): Plugin {
     },
     api: {
       getResolvedRoutes() {
+        if (!ctx)
+          return []
         return ctx.options.resolver.getComputedRoutes(ctx)
       },
     },
     configureServer(server) {
-      ctx.setupViteServer(server)
+      ctx?.setupViteServer(server)
     },
     resolveId(id) {
-      if (ctx.options.moduleIds.includes(id))
+      if (ctx?.options.moduleIds.includes(id))
         return `${MODULE_ID_VIRTUAL}?id=${id}`
 
       if (routeBlockQueryRE.test(id))
@@ -55,7 +57,7 @@ function pagesPlugin(userOptions: UserOptions = {}): Plugin {
         pageId,
       } = parsePageRequest(id)
 
-      if (moduleId === MODULE_ID_VIRTUAL && pageId && ctx.options.moduleIds.includes(pageId))
+      if (ctx && moduleId === MODULE_ID_VIRTUAL && pageId && ctx.options.moduleIds.includes(pageId))
         return ctx.resolveRoutes()
 
       if (id === ROUTE_BLOCK_ID_VIRTUAL) {

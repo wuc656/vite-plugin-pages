@@ -21,3 +21,6 @@ export const nuxtDynamicRouteRE = /^_(.*)$/
 export const nuxtCacheAllRouteRE = /^_$/
 
 export const replaceIndexRE = /\/?index$/
+
+export const LEADING_SLASH_RE = /^\//
+export const TRAILING_SLASH_RE = /\/$/

@@ -2,13 +2,11 @@ import type { ImportModeResolver, ResolvedOptions, UserOptions } from './types'
 import { resolve } from 'node:path'
 import process from 'node:process'
 
-import { MODULE_IDS } from './constants'
+import { LEADING_SLASH_RE, MODULE_IDS, TRAILING_SLASH_RE } from './constants'
 import { getPageDirs } from './files'
 import { reactResolver, solidResolver, vueResolver } from './resolvers'
 import { slash, toArray } from './utils'
 
-const VUE_MD_EXT_RE = /^\//
-const VUE_MD_EXT_RE1 = /\/$/
 function resolvePageDirs(dirs: UserOptions['dirs'], root: string, exclude: string[]) {
   dirs = toArray(dirs)
   return dirs.flatMap((dir) => {
@@ -17,15 +15,16 @@ function resolvePageDirs(dirs: UserOptions['dirs'], root: string, exclude: strin
       : dir
 
     option.dir = slash(resolve(root, option.dir)).replace(`${root}/`, '')
-    option.baseRoute = (option.baseRoute ?? '').replace(VUE_MD_EXT_RE, '').replace(VUE_MD_EXT_RE1, '')
+    option.baseRoute = (option.baseRoute ?? '').replace(LEADING_SLASH_RE, '').replace(TRAILING_SLASH_RE, '')
 
     return getPageDirs(option, root, exclude)
   })
 }
 
 export const syncIndexResolver: ImportModeResolver = (filepath, options) => {
+  const normalizedPath = slash(filepath).replace(LEADING_SLASH_RE, '')
   for (const page of options.dirs) {
-    if (page.baseRoute === '' && filepath.startsWith(`/${page.dir}/index`))
+    if (page.baseRoute === '' && normalizedPath.startsWith(`${page.dir}/index`))
       return 'sync'
   }
   return 'async'

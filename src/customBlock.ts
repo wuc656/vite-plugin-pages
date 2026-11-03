@@ -28,7 +28,7 @@ export function parseYamlComment(code: ParsedJSX[], path: string): CustomBlock {
 
       return {
         ...memo,
-        ...yamlResult,
+        ...(yamlResult ?? {}),
       }
     }
     catch (err: any) {
@@ -78,7 +78,7 @@ export function parseCustomBlock(block: SFCBlock, filePath: string, options: Res
   }
   else if (lang === 'yaml' || lang === 'yml') {
     try {
-      return YAMLParser(block.content)
+      return YAMLParser(block.content) ?? {}
     }
     catch (err: any) {
       throw new Error(`Invalid YAML format of <${block.type}> content in ${filePath}\n${err.message}`)
@@ -89,7 +89,7 @@ export function parseCustomBlock(block: SFCBlock, filePath: string, options: Res
 export async function getRouteBlock(path: string, options: ResolvedOptions) {
   const content = await readFile(path, 'utf8')
 
-  const parsedSFC = await parseSFC(content)
+  const parsedSFC = content.includes('<route') ? await parseSFC(content) : undefined
   const blockStr = parsedSFC?.customBlocks.find(b => b.type === 'route')
 
   const parsedJSX = parseJSX(content)

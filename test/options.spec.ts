@@ -1,4 +1,4 @@
-import { resolveOptions } from '../src/options'
+import { resolveOptions, syncIndexResolver } from '../src/options'
 
 describe('options resolve', () => {
   it('vue', () => {
@@ -60,5 +60,14 @@ describe('options resolve', () => {
       baseRoute: 'admin',
       filePattern: '**/*.view.tsx',
     })
+  })
+
+  it('syncIndexResolver handles leading slash and no leading slash', () => {
+    const options = resolveOptions({
+      dirs: 'examples/vue/src/pages',
+    })
+    expect(syncIndexResolver('/examples/vue/src/pages/index.vue', options)).toBe('sync')
+    expect(syncIndexResolver('examples/vue/src/pages/index.vue', options)).toBe('sync')
+    expect(syncIndexResolver('/examples/vue/src/pages/about.vue', options)).toBe('async')
   })
 })

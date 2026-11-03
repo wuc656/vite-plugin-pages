@@ -2,12 +2,12 @@ import type { PageOptions, ResolvedOptions } from './types'
 import { join } from 'node:path'
 import { globSync } from 'tinyglobby'
 
+import { TRAILING_SLASH_RE } from './constants'
 import { getPagePattern, slash } from './utils'
 
 /**
  * Resolves the page dirs for its for its given globs
  */
-const VUE_MD_EXT_RE = /\/$/
 export function getPageDirs(PageOptions: PageOptions, root: string, exclude: string[]): PageOptions[] {
   const dirs = globSync(slash(PageOptions.dir), {
     ignore: exclude,
@@ -19,7 +19,7 @@ export function getPageDirs(PageOptions: PageOptions, root: string, exclude: str
 
   const pageDirs = dirs.map(dir => ({
     ...PageOptions,
-    dir: dir.replace(VUE_MD_EXT_RE, ''),
+    dir: dir.replace(TRAILING_SLASH_RE, ''),
   }))
 
   return pageDirs

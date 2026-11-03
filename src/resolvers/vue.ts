@@ -3,6 +3,7 @@ import type { CustomBlock, Optional, PageResolver } from '../types'
 import { dequal } from 'dequal'
 import colors from 'picocolors'
 
+import { LEADING_SLASH_RE } from '../constants'
 import { getRouteBlock } from '../customBlock'
 import { generateClientCode } from '../stringify'
 import {
@@ -26,7 +27,7 @@ export interface VueRouteBase {
 export interface VueRoute extends Omit<Optional<VueRouteBase, 'rawRoute' | 'name'>, 'children'> {
   children?: VueRoute[]
 }
-const VUE_MD_EXT_RE = /^\//
+
 function prepareRoutes(
   ctx: PageContext,
   routes: VueRoute[],
@@ -38,12 +39,12 @@ function prepareRoutes(
       route.name = route.name.replace(indexSuffixRE, '')
 
     if (parent)
-      route.path = route.path?.replace(VUE_MD_EXT_RE, '')
+      route.path = route.path?.replace(LEADING_SLASH_RE, '')
 
     if (route.children)
       route.children = prepareRoutes(ctx, route.children, route)
 
-    if (route.children?.find(c => c.name === route.name))
+    if (route.children?.some(c => c.name === route.name))
       delete route.name
 
     route.props = true
