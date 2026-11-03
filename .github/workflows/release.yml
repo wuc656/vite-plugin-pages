@@ -1,4 +1,4 @@
-name: Publish Package
+name: Release
 
 on:
   push:
@@ -6,11 +6,10 @@ on:
       - 'v*'
 
 permissions:
-  id-token: write
   contents: write
 
 jobs:
-  publish-npm:
+  release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -25,7 +24,6 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
-          registry-url: https://registry.npmjs.org/
           cache: pnpm
 
       - name: Install dependencies
@@ -35,8 +33,3 @@ jobs:
         run: pnpm dlx changelogithub
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Publish package
-        run: pnpm run publish:ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
