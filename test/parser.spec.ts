@@ -30,10 +30,14 @@ describe('parser', () => {
   })
 
   it('returns empty object for empty yaml jsx comment', () => {
-    const parsed = [{
-      value: ' route\n# comment: only\n',
-      loc: { start: { line: 1 } },
-    }]
+    const parsed = [
+      {
+        value: ' route\n# comment: only\n',
+        loc: {
+          start: { line: 1 },
+        },
+      },
+    ]
     expect(parseYamlComment(parsed, 'test.jsx')).toEqual({})
   })
 })

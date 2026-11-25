@@ -9,7 +9,11 @@ describe('page context', () => {
   it('applies file patterns when adding and removing watched pages', async () => {
     const root = slash(mkdtempSync(join(tmpdir(), 'vite-plugin-pages-')))
     mkdirSync(join(root, 'pages'))
-    const server = await createServer({ root, configFile: false, server: { watch: null, ws: false } })
+    const server = await createServer({
+      root,
+      configFile: false,
+      server: { watch: null, ws: false },
+    })
 
     try {
       const ctx = new PageContext({
@@ -58,7 +62,11 @@ describe('page context', () => {
     const root = slash(mkdtempSync(join(tmpdir(), 'vite-plugin-pages-')))
     mkdirSync(join(root, 'pages'))
     mkdirSync(join(root, 'pages-extra'))
-    const server = await createServer({ root, configFile: false, server: { watch: null, ws: false } })
+    const server = await createServer({
+      root,
+      configFile: false,
+      server: { watch: null, ws: false },
+    })
 
     try {
       const ctx = new PageContext({
@@ -96,7 +104,11 @@ describe('page context', () => {
     mkdirSync(join(root, 'pages'))
     const path = `${root}/pages/index.vue`
     writeFileSync(path, '<template><div /></template><route>{"meta":{"title":"Home"}}</route>')
-    const server = await createServer({ root, configFile: false, server: { watch: null, ws: false } })
+    const server = await createServer({
+      root,
+      configFile: false,
+      server: { watch: null, ws: false },
+    })
 
     try {
       const ctx = new PageContext({ dirs: 'pages' }, root)
@@ -105,7 +117,9 @@ describe('page context', () => {
       const send = vi.spyOn(server.ws, 'send')
 
       expect(await ctx.options.resolver.getComputedRoutes(ctx)).toEqual([
-        expect.objectContaining({ meta: { title: 'Home' } }),
+        expect.objectContaining({
+          meta: { title: 'Home' },
+        }),
       ])
 
       writeFileSync(path, '<template><div /></template>')
@@ -113,7 +127,12 @@ describe('page context', () => {
 
       expect(send).toHaveBeenCalledExactlyOnceWith({ type: 'full-reload' })
       expect(await ctx.options.resolver.getComputedRoutes(ctx)).toEqual([
-        { name: 'index', path: '/', component: '/pages/index.vue', props: true },
+        {
+          name: 'index',
+          path: '/',
+          component: '/pages/index.vue',
+          props: true,
+        },
       ])
 
       send.mockClear()
@@ -122,6 +141,22 @@ describe('page context', () => {
     }
     finally {
       await server.close()
+      rmSync(root, { recursive: true, force: true })
+    }
+  })
+
+  it('preserves directory names containing dots/extensions when computing route paths', async () => {
+    const root = slash(mkdtempSync(join(tmpdir(), 'vite-plugin-pages-')))
+    mkdirSync(join(root, 'pages', 'foo.vue'), { recursive: true })
+    const filePath = `${root}/pages/foo.vue/bar.vue`
+    writeFileSync(filePath, '<template><div /></template>')
+
+    try {
+      const ctx = new PageContext({ dirs: 'pages' }, root)
+      await ctx.searchGlob()
+      expect(ctx.pageRouteMap.get(filePath)?.route).toBe('foo.vue/bar')
+    }
+    finally {
       rmSync(root, { recursive: true, force: true })
     }
   })

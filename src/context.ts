@@ -55,7 +55,9 @@ export class PageContext {
         path = slash(path)
         if (!isTarget(path, this.options))
           return
-        const page = findPageDir(path, this.options)!
+        const page = findPageDir(path, this.options)
+        if (!page)
+          return
         await this.addPage(path, page)
         this.onUpdate()
       })
@@ -73,19 +75,31 @@ export class PageContext {
 
   async addPage(path: string | string[], pageDir: PageOptions) {
     debug.pages('add', path)
+    const pageDirPath = slash(resolve(this.root, pageDir.dir))
+    const dirPrefix = pageDirPath.endsWith('/')
+      ? pageDirPath
+      : `${pageDirPath}/`
+    const tasks: Promise<void>[] = []
+
     for (const p of toArray(path)) {
-      const pageDirPath = slash(resolve(this.root, pageDir.dir))
       const extension = this.options.extensions.find(ext => p.endsWith(`.${ext}`))
       if (!extension)
         continue
 
-      const route = slash(join(pageDir.baseRoute ?? '', p.replace(`${pageDirPath}/`, '').replace(`.${extension}`, '')))
+      const relativePath = p.startsWith(dirPrefix)
+        ? p.slice(dirPrefix.length)
+        : p
+      const route = slash(join(pageDir.baseRoute ?? '', relativePath.slice(0, -(extension.length + 1))))
       this._pageRouteMap.set(p, {
         path: p,
         route,
       })
-      await this.options.resolver.hmr?.added?.(this, p)
+      const addedTask = this.options.resolver.hmr?.added?.(this, p)
+      if (addedTask)
+        tasks.push(addedTask)
     }
+
+    await Promise.all(tasks)
   }
 
   async removePage(path: string) {

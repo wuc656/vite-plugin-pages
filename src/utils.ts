@@ -16,7 +16,9 @@ export function slash(str: string) {
 export function toArray<T>(value: T | T[] | null | undefined): T[] {
   if (value == null)
     return []
-  return Array.isArray(value) ? value : [value]
+  return Array.isArray(value)
+    ? value
+    : [value]
 }
 
 export const debug = {
@@ -31,7 +33,9 @@ export const debug = {
 }
 
 export function extsToGlob(extensions: string[]) {
-  return extensions.length > 1 ? `{${extensions.join(',')}}` : extensions[0] || ''
+  return extensions.length > 1
+    ? `{${extensions.join(',')}}`
+    : extensions[0] || ''
 }
 
 export function getPagePattern(options: ResolvedOptions, page?: PageOptions) {
@@ -50,7 +54,9 @@ export function countSlash(value: string) {
 export function findPageDir(path: string, options: ResolvedOptions) {
   return options.dirs.find((page) => {
     const dirPath = slash(resolve(options.root, page.dir))
-    const prefix = dirPath.endsWith('/') ? dirPath : `${dirPath}/`
+    const prefix = dirPath.endsWith('/')
+      ? dirPath
+      : `${dirPath}/`
     return path.startsWith(prefix) && micromatch.isMatch(path.slice(prefix.length), getPagePattern(options, page))
   })
 }
@@ -133,8 +139,12 @@ export function buildReactRemixRoutePath(node: string): string | undefined {
   let skipSegment = false
   for (let i = 0; i < node.length; i++) {
     const char = node.charAt(i)
-    const lastChar = i > 0 ? node.charAt(i - 1) : undefined
-    const nextChar = i < node.length - 1 ? node.charAt(i + 1) : undefined
+    const lastChar = i > 0
+      ? node.charAt(i - 1)
+      : undefined
+    const nextChar = i < node.length - 1
+      ? node.charAt(i + 1)
+      : undefined
 
     function isNewEscapeSequence() {
       return (
@@ -189,7 +199,9 @@ export function buildReactRemixRoutePath(node: string): string | undefined {
     rawSegmentBuffer += char
 
     if (char === '$') {
-      result += typeof nextChar === 'undefined' ? '*' : ':'
+      result += typeof nextChar === 'undefined'
+        ? '*'
+        : ':'
       continue
     }
 

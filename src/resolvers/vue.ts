@@ -65,20 +65,24 @@ function prepareRoutes(
 async function computeVueRoutes(ctx: PageContext, customBlockMap: Map<string, CustomBlock>): Promise<VueRoute[]> {
   const { routeStyle, caseSensitive, importPath, routeNameSeparator } = ctx.options
 
-  const pageRoutes = [...ctx.pageRouteMap.values()]
+  const pageRoutes = [
+    ...ctx.pageRouteMap.values(),
+  ]
     // sort routes for HMR
     .sort((a, b) => countSlash(a.route) - countSlash(b.route))
 
   const routes: VueRouteBase[] = []
 
   // Precompute route path set for O(1) index lookup in nuxt dynamic routes
-  const routePaths = new Set(pageRoutes.map(p => p.route))
+  const routePaths = new Set(pageRoutes.map(p => normalizeCase(p.route, caseSensitive)))
 
   pageRoutes.forEach((page) => {
     const pathNodes = page.route.split('/')
 
     // add leading slash to component path if not already there
-    const component = importPath === 'relative' ? page.path.replace(ctx.root, '') : page.path
+    const component = importPath === 'relative'
+      ? page.path.replace(ctx.root, '')
+      : page.path
     const customBlock = customBlockMap.get(page.path)
 
     const route: VueRouteBase = {
@@ -99,11 +103,14 @@ async function computeVueRoutes(ctx: PageContext, customBlockMap: Map<string, Cu
       const isCatchAll = isCatchAllRoute(node, nuxtStyle)
       const normalizedName = normalizeName(node, isDynamic, nuxtStyle)
       const normalizedPath = normalizeCase(normalizedName, caseSensitive)
+      const isIndex = !isDynamic && normalizedPath === 'index'
 
       if (isDynamic)
         dynamicRoute = true
 
-      route.name += route.name ? `${routeNameSeparator}${normalizedName}` : normalizedName
+      route.name += route.name
+        ? `${routeNameSeparator}${normalizedName}`
+        : normalizedName
 
       // Check parent exits
       const parent = parentRoutes.find((parent) => {
@@ -118,11 +125,11 @@ async function computeVueRoutes(ctx: PageContext, customBlockMap: Map<string, Cu
         // Reset path
         route.path = ''
       }
-      else if (normalizedPath === 'index') {
-        if (!route.path)
+      else if (isIndex) {
+        if (!route.path && i === pathNodes.length - 1)
           route.path = '/'
       }
-      else if (normalizedPath !== 'index') {
+      else {
         if (isDynamic) {
           route.path += `/:${normalizedName}`
           // Catch-all route
@@ -136,7 +143,11 @@ async function computeVueRoutes(ctx: PageContext, customBlockMap: Map<string, Cu
           }
           else if (nuxtStyle && i === pathNodes.length - 1) {
             // we need to search if the folder provide `index.vue`
-            if (!routePaths.has(page.route.replace(pathNodes[i], 'index')))
+            const indexRoute = normalizeCase([
+              ...pathNodes.slice(0, i),
+              'index',
+            ].join('/'), caseSensitive)
+            if (!routePaths.has(indexRoute))
               route.path += '?'
           }
         }

@@ -344,7 +344,9 @@ export default {
         // return 'async'
 
         // Load about page synchronously, all other pages are async.
-        return filepath.includes('about') ? 'sync' : 'async'
+        return filepath.includes('about')
+          ? 'sync'
+          : 'async'
       },
     }),
   ],

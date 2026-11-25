@@ -1,15 +1,20 @@
+minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
   - react-router@7.17.0
   - '@types/node@26.3.0'
   - baseline-browser-mapping@2.11.19
   - eslint@10.9.1
-shellEmulator: true
+
 trustPolicy: no-downgrade
 trustPolicyExclude:
   - chokidar@4.0.3
   - semver@6.3.1
+
+shellEmulator: true
+
 packages:
   - examples/*
+
 overrides:
   '@vue/server-renderer': ^3.5.44
   array-flatten: npm:@nolyfill/array-flatten@^1.0.44
@@ -26,7 +31,9 @@ overrides:
   seroval: ^1.6.1
   side-channel: npm:@nolyfill/side-channel@^1.0.44
   source-map-js: ^1.2.2
-onlyBuiltDependencies:
-  - esbuild
+
 allowBuilds:
   esbuild: true
+
+onlyBuiltDependencies:
+  - esbuild
